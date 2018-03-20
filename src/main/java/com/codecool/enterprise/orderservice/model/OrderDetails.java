@@ -3,19 +3,15 @@ package com.codecool.enterprise.orderservice.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "`ORDER`")
-public class Order {
+@Table(name = "ORDERDETAILS")
+public class OrderDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long userId;
+    private long productId;
 
     @OneToOne(cascade = CascadeType.ALL)
-    OrderDetails orderDetails;
-
-    public Order(long userId) {
-        this.userId = userId;
-    }
+    Order order;
 }
