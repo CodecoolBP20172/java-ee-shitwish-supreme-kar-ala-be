@@ -22,6 +22,14 @@ public class OrderService {
         return orderRepository.findAllByUserId(userId);
     }
 
+    public Order findOrder(Long id) {
+        return orderRepository.findOne(id);
+    }
+
+    public void deleteOrder(Order order) {
+        orderRepository.delete(order);
+    }
+
     public boolean addToUsersOrder(long userId, long productId) {
         Order order = new Order(userId, productId);
         List<Order> orderDetails = findAllByUserId(userId);

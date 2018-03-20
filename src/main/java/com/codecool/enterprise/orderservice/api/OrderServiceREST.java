@@ -49,4 +49,12 @@ public class OrderServiceREST {
 
         return object;
     }
+
+    @RequestMapping(value = "/post-buy/{userId}", method = RequestMethod.POST)
+    public ResponseEntity<Object> postBuy(@PathVariable("userId") Long userId) {
+
+        Order order = orderService.findOrder(userId);
+        orderService.deleteOrder(order);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
