@@ -12,10 +12,34 @@ public class Order {
 
     private long userId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    OrderDetails orderDetails;
+    private long productId;
 
-    public Order(long userId) {
+    public Order() {
+    }
+
+    public Order(long userId, long productId) {
         this.userId = userId;
+        this.productId = productId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public long getProductId() {
+        return productId;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", productId=" + productId +
+                '}';
     }
 }
