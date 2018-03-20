@@ -1,7 +1,5 @@
 package com.codecool.enterprise.orderservice.model;
 
-import org.hibernate.engine.internal.Cascade;
-
 import javax.persistence.*;
 
 @Entity
@@ -22,6 +20,14 @@ public class Order {
     public Order(long userId, long productId) {
         this.userId = userId;
         this.productId = productId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public long getUserId() {
+        return userId;
     }
 
     public long getProductId() {
