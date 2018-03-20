@@ -3,20 +3,26 @@ package com.codecool.enterprise.orderservice.service;
 import com.codecool.enterprise.orderservice.model.Order;
 import com.codecool.enterprise.orderservice.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class OrderService{
+public class OrderService {
 
     @Autowired
     public OrderRepository orderRepository;
 
-    public boolean add(long userId, long productId) {
+    public void save(Order entity) {
+        orderRepository.save(entity);
+    }
+
+    public List<Order> findAllByUserId(long userId) {
+        return orderRepository.findAllByUserId(userId);
+    }
+
+    public boolean addToUsersOrder(long userId, long productId) {
         Order order = new Order(userId, productId);
         List<Order> orderDetails = findAllByUserId(userId);
 
@@ -35,9 +41,5 @@ public class OrderService{
         }
         System.out.println(String.format("product %s already in user %s's orders!", productId, userId));
         return false;
-    }
-
-    public List<Order> findAllByUserId(long userId) {
-        return orderRepository.findAllByUserId(userId);
     }
 }
