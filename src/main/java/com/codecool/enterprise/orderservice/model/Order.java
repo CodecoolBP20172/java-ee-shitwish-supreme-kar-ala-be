@@ -11,11 +11,13 @@ public class Order {
     private long id;
 
     private long userId;
+    private long productId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    OrderDetails orderDetails;
+    public Order() {
+    }
 
-    public Order(long userId) {
+    public Order(long userId, long productId) {
         this.userId = userId;
+        this.productId = productId;
     }
 }
