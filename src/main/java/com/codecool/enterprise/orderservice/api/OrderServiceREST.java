@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class OrderServiceREST {
@@ -24,9 +25,10 @@ public class OrderServiceREST {
     }
 
     @RequestMapping(value = "/add-to-cart", method = RequestMethod.POST)
-    public ResponseEntity<String> addToCart(@RequestBody AddToCartRequestBody requestBody) {
-        long userId = requestBody.getUserId();
-        long productId = requestBody.getProductId();
+    public ResponseEntity<String> addToCart(@RequestBody Map<String, Long>requestBody) {
+
+        long userId = requestBody.get("userId");
+        long productId = requestBody.get("productId");
 
         if (orderService.addToUsersOrder(userId, productId)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
