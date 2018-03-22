@@ -24,15 +24,18 @@ public class OrderServiceREST {
     }
 
     @RequestMapping(value = "/add-to-cart", method = RequestMethod.POST)
-    public ResponseEntity<String> addToCart(@RequestBody Map<String, Long> requestBody) {
+    public ResponseEntity<String> addToCart(@RequestBody Map<String, JSONObject> requestBody) {
 
-        long userId = requestBody.get("userId");
-        long productId = requestBody.get("productId");
+        JSONObject jsonObject = requestBody.get("cartJson");
+
+        Integer userId = (Integer) jsonObject.get("userId");
+        Integer productId = (Integer) jsonObject.get("productId");
 
         if (orderService.addToUsersOrder(userId, productId)) {
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return new ResponseEntity(HttpStatus.OK);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/get-cart/{userId}")
@@ -56,7 +59,7 @@ public class OrderServiceREST {
         return ResponseEntity.status(deleteAllProductsByUser(userId)).build();
     }
 
-    @RequestMapping(value = "/delete-cart/{userId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete-cart/{userId}", method = RequestMethod.POST)
     public ResponseEntity<Object> deleteCart(@PathVariable("userId") Long userId) {
         return ResponseEntity.status(deleteAllProductsByUser(userId)).build();
     }
