@@ -30,6 +30,10 @@ public class OrderService {
         orderRepository.delete(order);
     }
 
+    public Order findOrderByProductId(long productId) {
+        return orderRepository.findOneByProductId(productId);
+    }
+
     public boolean addToUsersOrder(long userId, long productId) {
         Order order = new Order(userId, productId);
         List<Order> orderDetails = findAllByUserId(userId);

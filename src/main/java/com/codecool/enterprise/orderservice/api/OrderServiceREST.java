@@ -24,7 +24,7 @@ public class OrderServiceREST {
     }
 
     @RequestMapping(value = "/add-to-cart", method = RequestMethod.POST)
-    public ResponseEntity<String> addToCart(@RequestBody Map<String, Long>requestBody) {
+    public ResponseEntity<String> addToCart(@RequestBody Map<String, Long> requestBody) {
 
         long userId = requestBody.get("userId");
         long productId = requestBody.get("productId");
@@ -56,6 +56,19 @@ public class OrderServiceREST {
 
         Order order = orderService.findOrder(userId);
         orderService.deleteOrder(order);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @RequestMapping(value = "/remove-product/{productId}", method = RequestMethod.POST)
+    public ResponseEntity<Object> removeProduct(@PathVariable("productId") Long productId) {
+
+        Order order = orderService.findOrderByProductId(productId);
+        if (order == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        orderService.deleteOrder(order);
+        System.out.println("Deleted order: " + order);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
