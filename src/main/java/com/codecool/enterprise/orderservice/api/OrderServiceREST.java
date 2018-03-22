@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +25,10 @@ public class OrderServiceREST {
     }
 
     @RequestMapping(value = "/add-to-cart", method = RequestMethod.POST)
-    public ResponseEntity<String> addToCart(@RequestBody Map<String, JSONObject> requestBody) {
+    public ResponseEntity<String> addToCart(HttpServletRequest req) {
 
-        JSONObject jsonObject = requestBody.get("cartJson");
-
-        Integer userId = (Integer) jsonObject.get("userId");
-        Integer productId = (Integer) jsonObject.get("productId");
+        long userId = Long.parseLong(req.getParameter("userId"));
+        long productId = Long.parseLong(req.getParameter("productId"));
 
         if (orderService.addToUsersOrder(userId, productId)) {
             return new ResponseEntity(HttpStatus.OK);
