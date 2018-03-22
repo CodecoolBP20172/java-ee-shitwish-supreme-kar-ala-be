@@ -1,6 +1,5 @@
 package com.codecool.enterprise.orderservice.api;
 
-import com.codecool.enterprise.orderservice.model.AddToCartRequestBody;
 import com.codecool.enterprise.orderservice.model.Order;
 import com.codecool.enterprise.orderservice.service.OrderService;
 import org.json.simple.JSONObject;
@@ -31,9 +30,9 @@ public class OrderServiceREST {
         long productId = requestBody.get("productId");
 
         if (orderService.addToUsersOrder(userId, productId)) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @GetMapping("/get-cart/{userId}")
