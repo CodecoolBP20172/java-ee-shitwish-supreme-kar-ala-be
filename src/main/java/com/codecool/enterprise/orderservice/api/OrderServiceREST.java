@@ -53,10 +53,12 @@ public class OrderServiceREST {
 
     @RequestMapping(value = "/post-buy/{userId}", method = RequestMethod.POST)
     public ResponseEntity<Object> postBuy(@PathVariable("userId") Long userId) {
+        return ResponseEntity.status(deleteAllProductsByUser(userId)).build();
+    }
 
-        Order order = orderService.findOrder(userId);
-        orderService.deleteOrder(order);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    @RequestMapping(value = "/delete-cart/{userId}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> deleteCart(@PathVariable("userId") Long userId) {
+        return ResponseEntity.status(deleteAllProductsByUser(userId)).build();
     }
 
     @RequestMapping(value = "/remove-product/{productId}", method = RequestMethod.POST)
@@ -71,4 +73,16 @@ public class OrderServiceREST {
         System.out.println("Deleted order: " + order);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    private HttpStatus deleteAllProductsByUser(Long userId) {
+        List<Order> orders = orderService.findAllByUserId(userId);
+        if (orders == null || orders.isEmpty()) {
+            return HttpStatus.BAD_REQUEST;
+        }
+        for (Order order: orders) {
+            orderService.deleteOrder(order);
+        }
+        return HttpStatus.OK;
+    }
+
 }
